@@ -21,8 +21,6 @@ namespace RapidPay.Services
         public async Task<User> Authenticate(string username, string password)
         {
             var user = await Task.Run(() => dbContext.Users.SingleOrDefault(x => x.Username == username && x.Password == password));
-            if (user != null)
-                user.Password = "";
             return user;
 
         }

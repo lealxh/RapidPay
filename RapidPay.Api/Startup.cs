@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace RapidPay.Api
 {
@@ -38,6 +40,36 @@ namespace RapidPay.Api
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, Handlers.BasicAuthenticationHandler>("BasicAuthentication", null);
 
+            services.AddSwaggerGen(options =>
+            {
+               
+
+                options.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "basic"
+                            }
+                    },
+                    new string[] {}
+                }
+                });
+
+            });
+
             services.AddControllers();
        
 
@@ -59,6 +91,15 @@ namespace RapidPay.Api
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+        
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
 
             app.UseEndpoints(endpoints =>
             {
