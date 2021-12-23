@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace RapidPay.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PaymentFeeManager : IPaymentFeeManager
     {
         private decimal _randomFactor { get; set; }

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace RapidPay.Domain.Entities
 {
+    /// <summary>
+    /// Users table definition for Db 
+    /// </summary>
     public class User
     {
         public int Id { get; set; }

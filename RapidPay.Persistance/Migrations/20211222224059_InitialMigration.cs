@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RapidPay.Persistance.Migrations
 {
+    /// <summary>
+    /// Database model defined from add-migration command
+    /// </summary>
     public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

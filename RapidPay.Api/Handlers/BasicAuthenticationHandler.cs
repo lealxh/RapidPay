@@ -14,9 +14,12 @@ using RapidPay.Domain.Interfaces;
 
 namespace RapidPay.Api.Handlers
 {
+    /// <summary>
+    /// Basic authentication handler declared for the application in startup
+    /// </summary>
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly IAuthenticationManager authService;
+        private readonly IAuthenticationManager authService; // auth service to validate user and password in db
 
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -51,6 +54,7 @@ namespace RapidPay.Api.Handlers
             catch
             {
                 return AuthenticateResult.Fail("Invalid Authorization Header");
+                
             }
 
             if (user == null)

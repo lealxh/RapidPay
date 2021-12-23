@@ -10,7 +10,5 @@ namespace RapidPay.Domain.Interfaces
     public interface IAuthenticationManager
     {
         Task<User> Authenticate(string username, string password);
-
-        
     }
 }

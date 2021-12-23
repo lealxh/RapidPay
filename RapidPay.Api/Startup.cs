@@ -29,21 +29,26 @@ namespace RapidPay.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //declaring the dependencies
             services.AddScoped<ICardManager, CardManager>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            //declaring the singleton for the fee manager
             services.AddSingleton<IPaymentFeeManager, PaymentFeeManager>();
 
+            //declaring sql Server as the provider for Entity framework
             services.AddDbContext<DatabaseContext>(options => options.
                    UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                            b => b.MigrationsAssembly("RapidPay.Persistance")));
 
+            //declaring our handler for basic auth
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, Handlers.BasicAuthenticationHandler>("BasicAuthentication", null);
 
+            //Adding the swagger
             services.AddSwaggerGen(options =>
             {
                
-
+                //including basic auth option in swagger
                 options.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -53,6 +58,7 @@ namespace RapidPay.Api
                     Description = "Basic Authorization header using the Bearer scheme."
                 });
 
+                //including basic auth requeriment in swagger
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -82,13 +88,9 @@ namespace RapidPay.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseCors(x => x
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
-
+            
             app.UseRouting();
+            //Configuring authentication and authorization for the app
             app.UseAuthentication();
             app.UseAuthorization();
         

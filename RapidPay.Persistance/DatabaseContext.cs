@@ -10,6 +10,9 @@ namespace RapidPay.Persistance
 {
     public class DatabaseContext:DbContext
     {
+        /// <summary>
+        /// Database context definition for Entity framework
+        /// </summary>
         public DatabaseContext()
         {
 
@@ -22,6 +25,7 @@ namespace RapidPay.Persistance
         public DbSet<Card> Cards { get; set; }
         public DbSet<User> Users { get; set; }
 
+        //Adding the test user to the model creation
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().HasData(

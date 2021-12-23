@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace RapidPay.Domain.Entities
 {
+    /// <summary>
+    /// Transactions table definition for Db 
+    /// </summary>
     public class Transaction
     {
         public int Id { get; set; }

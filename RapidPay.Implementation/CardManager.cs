@@ -13,16 +13,21 @@ using System.Text.RegularExpressions;
 
 namespace RapidPay.Services
 {
+
+    /// <summary>
+    /// Service for Card Management and Payments
+    /// </summary>
     public class CardManager : ICardManager
     {
-        private readonly DatabaseContext dbContext;
-        private readonly IPaymentFeeManager feeManager;
-        private readonly ILogger logger;
+        private readonly DatabaseContext dbContext; // entity framework db Context
+        private readonly IPaymentFeeManager feeManager; // Fee calculator service
+        private readonly ILogger logger; 
         private readonly object cardBalanceLock = new object();
-        
+        //posible status response in the transaction in this service
         public enum Status { Ok=0, InsuficientBalance=1, NotFound=2, Error=3, FormatInvalid=4 };
         public CardManager(DatabaseContext dbContext,IPaymentFeeManager feeManager, ILogger<CardManager> logger)
         {
+            //DI of dependencies
             this.dbContext = dbContext;
             this.feeManager = feeManager;
             this.logger = logger;

@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 
 namespace RapidPay.WebApi.Controllers
 {
-    [Authorize]
+    /// <summary>
+    /// Cards controller for actions publish in the Api
+    /// </summary>
+    [Authorize] // declaring the authorization needed for any othe actions
     [Route("/")]
     [ApiController]
     public class CardsController : ControllerBase
@@ -49,8 +52,6 @@ namespace RapidPay.WebApi.Controllers
         [HttpPost("CreateCard")]
         public IActionResult CreateCard([FromBody]Card card)
         {
-             
-
             int result=cardManager.CreateCard(card);
 
             ICardManager.Status status = (ICardManager.Status)result;
@@ -70,7 +71,6 @@ namespace RapidPay.WebApi.Controllers
         public async Task<IActionResult> Pay([FromBody]PaymentDTO dto)
         {
     
-
             int result= await cardManager.SendPayment( dto.CardNumber, dto.Amount, dto.Description);
             ICardManager.Status status = (ICardManager.Status)result;
             switch (status)

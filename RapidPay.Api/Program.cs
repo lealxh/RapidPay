@@ -13,6 +13,8 @@ namespace RapidPay.Api
 {
     public class Program
     {
+        //Defining the appsettings.json as configuration source for our application
+        //the DefaultConnection parameter in this file have the connection string for our application.
         public static IConfiguration Configuration { get; } =
         new ConfigurationBuilder()
        .SetBasePath(Directory.GetCurrentDirectory())
@@ -31,8 +33,8 @@ namespace RapidPay.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseConfiguration(Configuration);
-                  
+                    webBuilder.UseConfiguration(Configuration);//Adding the configuration defined
+
                 }).ConfigureLogging(
                 logging =>
                 {

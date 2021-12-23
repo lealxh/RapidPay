@@ -10,6 +10,9 @@ using System.Linq.Expressions;
 
 namespace RapidPay.Services
 {
+    /// <summary>
+    /// Service for user and password validation
+    /// </summary>
     public class AuthenticationManager : IAuthenticationManager
     {
         private readonly DatabaseContext dbContext;
