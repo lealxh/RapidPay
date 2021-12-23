@@ -58,7 +58,7 @@ namespace RapidPay.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost("SendPayment")]
+        [HttpPost("Pay")]
         public async Task<IActionResult> Pay([FromBody]PaymentDTO dto)
         {
             int result= await cardManager.SendPayment( dto.CardNumber, dto.Amount, dto.Description);
