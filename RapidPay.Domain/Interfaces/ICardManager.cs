@@ -9,13 +9,14 @@ namespace RapidPay.Domain.Interfaces
 {
     public interface ICardManager
     {
-        public enum Status { Ok = 0, InsuficientBalance = 1, NotFound = 2, Error = 3 };
+        public enum Status { Ok = 0, InsuficientBalance = 1, NotFound = 2, Error = 3 , FormatInvalid=4};
         int CreateCard(Card card);
         Task<int> SendPayment(string cardNumber, decimal amount, string description);
         Card GetBalance(string cardNumber);
         List<Card> ListCards();
         List<Transaction> ListTransactions();
+        bool isCardValid(string s);
 
-        
+
     }
 }

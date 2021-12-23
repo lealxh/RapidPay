@@ -23,7 +23,6 @@ namespace RapidPay.Api
         public static void Main(string[] args)
         {
             var builder = CreateHostBuilder(args);
-
             builder.Build().Run();
         }
 
@@ -34,6 +33,13 @@ namespace RapidPay.Api
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseConfiguration(Configuration);
                   
+                }).ConfigureLogging(
+                logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
                 });
+
+        
     }
 }

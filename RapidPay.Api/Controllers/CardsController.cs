@@ -24,6 +24,9 @@ namespace RapidPay.WebApi.Controllers
         [HttpGet("GetBalance/{cardNumber}")]
         public IActionResult GetBalance(string cardNumber)
         {
+            if (!cardManager.isCardValid(cardNumber))
+                return BadRequest("Card Format incorrect");
+
             Card card = cardManager.GetBalance(cardNumber);
             if(card==null)
                 return NotFound("Card not Found");
@@ -46,7 +49,10 @@ namespace RapidPay.WebApi.Controllers
         [HttpPost("CreateCard")]
         public IActionResult CreateCard([FromBody]Card card)
         {
+             
+
             int result=cardManager.CreateCard(card);
+
             ICardManager.Status status = (ICardManager.Status)result;
             switch (status)
             {
@@ -54,6 +60,8 @@ namespace RapidPay.WebApi.Controllers
                     return Ok(card);
                 case ICardManager.Status.Error:
                     return StatusCode(500);
+                case ICardManager.Status.FormatInvalid:
+                    return BadRequest("Card Format incorrect");
             }
             return Ok();
         }
@@ -61,6 +69,8 @@ namespace RapidPay.WebApi.Controllers
         [HttpPost("Pay")]
         public async Task<IActionResult> Pay([FromBody]PaymentDTO dto)
         {
+    
+
             int result= await cardManager.SendPayment( dto.CardNumber, dto.Amount, dto.Description);
             ICardManager.Status status = (ICardManager.Status)result;
             switch (status)
@@ -73,6 +83,8 @@ namespace RapidPay.WebApi.Controllers
                     return NotFound("Card not Found");
                 case ICardManager.Status.Error:
                     return StatusCode(500);
+                case ICardManager.Status.FormatInvalid:
+                    return BadRequest("Card Format incorrect");
             }
             return Ok();
         }
