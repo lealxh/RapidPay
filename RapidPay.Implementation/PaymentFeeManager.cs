@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace RapidPay.Services
 {
     /// <summary>
-    /// 
+    /// Service for Payment Fee Calculation
     /// </summary>
     public class PaymentFeeManager : IPaymentFeeManager
     {

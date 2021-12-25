@@ -19,11 +19,16 @@ namespace RapidPay.WebApi.Controllers
     public class CardsController : ControllerBase
     {
         private readonly ICardManager cardManager;
+        private readonly IAuthenticationManager authService;
+        private readonly IJwtTokenGenerator tokenService;
 
-        public CardsController(ICardManager cardManager)
+        public CardsController(ICardManager cardManager,IAuthenticationManager authService,IJwtTokenGenerator tokenService)
         {
             this.cardManager = cardManager;
+            this.authService = authService;
+            this.tokenService = tokenService;
         }
+
         [HttpGet("GetBalance/{cardNumber}")]
         public IActionResult GetBalance(string cardNumber)
         {
@@ -87,6 +92,21 @@ namespace RapidPay.WebApi.Controllers
                     return BadRequest("Card Format incorrect");
             }
             return Ok();
+        }
+
+        [AllowAnonymous]
+        // POST api/<MembersController>
+        [HttpPost("authentication")]
+        public async Task<IActionResult> Authentication([FromBody] UserCredential userCredential)
+        {
+            var user = await authService.Authenticate(userCredential.UserName, userCredential.Password);
+
+            if (user==null)
+                return Unauthorized();
+
+            var token = tokenService.CreateToken(userCredential.UserName);
+
+            return Ok(token);
         }
 
 
